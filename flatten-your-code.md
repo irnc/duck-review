@@ -227,7 +227,9 @@ function retrieveSpecsForBasicFleet(savedModel) {
 
 Deepest point: 8 columns (remember that original depth was 18).
 
-## Pass every variable as a parameter and flatten functions
+## Pass every variable as a parameter and extract nested functions
+
+Lets extract _innermost_ function first, `toReportRecord`.
 
 ```js
 function retrieveSpecsForBasicFleet(savedModel) {
@@ -268,11 +270,13 @@ function toReportRecord(savedModel, displayedSpecs, confs) {
 
 Now we can see that `retrieveSpecsForBasicFleet` is quite simple and we can notice that promises are nested for
 no reason: `findConfigurationAndChangeTheWorld` does not need `displayedSpecs` until promise of
-`findByConfigurationId` is returned. Lets flatten them!
+`findByConfigurationId` is resolved. Lets flatten them!
 
 ## Flatten promises
 
-```
+Here is what happens from your flatten promises:
+
+```js
 function retrieveSpecsForBasicFleet(savedModel) {
   var displayedSpecs = DisplayedSpecification.getByModelRdbIdWithProductName(
     savedModel.model_rdb_id,
@@ -280,6 +284,7 @@ function retrieveSpecsForBasicFleet(savedModel) {
   );
   var configuration = Configuration.findByConfigurationId(savedModel.configuration_id);
   
+  // FIXME we return report record, but function says that it retrieves specs
   return P.all([savedModel, displayedSpecs, configuration]).spread(toReportRecord);
 }
 
@@ -309,3 +314,7 @@ function toReportRecord(savedModel, displayedSpecs, confs) {
 Deepest point: 4 columns (original depth was 18).
 
 That's all. All other things should be easily fixable using common sense.
+
+P.S. Refactoring made `toReportRecord` a pure function which is great for unit testing. There was no unit tests for initial code, good luck trying to write them without mocking the universe.
+
+P.P.S. Refactor your code until you could unit test it. If you could not test it, nobody can read it.
