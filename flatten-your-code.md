@@ -49,7 +49,7 @@ First convert each functional expression into function declaration, this is poss
 your functions. Start from deepest one, and remember to preserve the same scope, so there is no need to carefully
 check that all needed variables are passed as parameters (we will do this later).
 
-Thing about names. Put everything function does in it's name. Function name gets too long? Great, it is a sign of
+Think about names. Put everything function does in it's name. Function name gets too long? Great, it is a sign of
 a needed refactoring, we will do it later.
 
 ```js
@@ -105,11 +105,13 @@ function retrieveSpecsForBasicFleet(savedModel) {
 
 Deepest point: 12 columns (two thirds from original depth).
 
+Now code is less nested, which is great, but look at those functions: `findConfigurationAndChangeTheWorld`, `someMap`, `unclearFilter`... they received these names because they do exactly this, _something unclear_.
+
 ## Prepare data and use lodash
 
 Try to use lodash every time you see boilerplate code working with arrays or collections.
 
-Lets look at `toReportRecord`.
+Lets look at `toReportRecord`. What it does?
 
 ```js
 // Note: `displayedSpecs` are coming from outer scope.
@@ -177,7 +179,7 @@ function toReportRecord(confs) {
   var displayedNames = _.map(displayedSpecs, 'specification_name');
   var specs = _(confs.specification).map('specs').flatten().value();
   
-  // FIXME now we see that `configuration` is a bad name for this variables
+  // FIXME now we see that `configuration` is a bad name for this variable
   var configuration = _.filter(specs, function (spec) {
     return _.includes(displayedNames, spec.name);
   });
@@ -203,7 +205,7 @@ function retrieveSpecsForBasicFleet(savedModel) {
       var displayedNames = _.map(displayedSpecs, 'specification_name');
       var specs = _(confs.specification).map('specs').flatten().value();
       
-      // FIXME now we see that `configuration` is a bad name for this variables
+      // FIXME now we see that `configuration` is a bad name for this variable
       var configuration = _.filter(specs, function (spec) {
         return _.includes(displayedNames, spec.name);
       });
@@ -246,7 +248,7 @@ function toReportRecord(savedModel, displayedSpecs, confs) {
   var displayedNames = _.map(displayedSpecs, 'specification_name');
   var specs = _(confs.specification).map('specs').flatten().value();
   
-  // FIXME now we see that `configuration` is a bad name for this variables
+  // FIXME now we see that `configuration` is a bad name for this variable
   var configuration = _.filter(specs, function (spec) {
     return _.includes(displayedNames, spec.name);
   });
@@ -286,7 +288,7 @@ function toReportRecord(savedModel, displayedSpecs, confs) {
   var displayedNames = _.map(displayedSpecs, 'specification_name');
   var specs = _(confs.specification).map('specs').flatten().value();
   
-  // FIXME now we see that `configuration` is a bad name for this variables
+  // FIXME now we see that `configuration` is a bad name for this variable
   var configuration = _.filter(specs, function (spec) {
     return _.includes(displayedNames, spec.name);
   });
