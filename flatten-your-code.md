@@ -274,7 +274,7 @@ no reason: `findConfigurationAndChangeTheWorld` does not need `displayedSpecs` u
 
 ## Flatten promises
 
-Here is what happens from your flatten promises:
+Here is what happens when you flatten promises:
 
 ```js
 function retrieveSpecsForBasicFleet(savedModel) {
